@@ -18,8 +18,6 @@ char encryptChar  (config * cnf,char character){
 }
 
 void encrypt (config * cnf){
-    cout<<"encrypting ...\n";
-
     FILE* input_file = fopen(cnf->vstupniSoubor.c_str(), "r");
     if (input_file == nullptr) {
        throw invalid_argument("Nepodařilo se otevřít vstupní soubor");

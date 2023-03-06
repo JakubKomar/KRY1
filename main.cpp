@@ -74,5 +74,10 @@ void cheackConf(config *cnf){
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->vystupniSoubor=="")throw invalid_argument("nebyl zadán výstupní soubor");
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->vstupniSoubor=="")throw invalid_argument("nebyl zadán vstupní soubor");
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->klicA==0)throw invalid_argument("nebyl zadán klič A");
+    if((cnf->desifrovani ||cnf->sifrovani)){
+        if(! (cnf->klicA==1||cnf->klicA==3||cnf->klicA==5||cnf->klicA==7||cnf->klicA==9||cnf->klicA==11||
+            cnf->klicA==15||cnf->klicA==17||cnf->klicA==19||cnf->klicA==21||cnf->klicA==23||cnf->klicA==25))
+            throw invalid_argument("Nebyl zadán validní klíč A - vyberte číslo ze seznamu: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23 a 25.");
+    }
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->klicB==0)throw invalid_argument("nebyl zadán klič B");
 }

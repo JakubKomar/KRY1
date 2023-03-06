@@ -27,13 +27,11 @@ char decryptChar  (config * cnf,char character,int invertedKeyA){
     char encryptedChar=invertedKeyA *( character -cnf->klicB )%26;   //šifrovací funke
     if(encryptedChar<0)
         encryptedChar=encryptedChar+26;
-    cout << int(encryptedChar)<< "\n";
+    //cout << int(encryptedChar)<< "\n";
     return encryptedChar+65;
 }
 
 void decrypt (config * cnf){
-    cout<<"decrypting ...\n";
-
     FILE* input_file = fopen(cnf->vstupniSoubor.c_str(), "r");
     if (input_file == nullptr) {
        throw invalid_argument("Nepodařilo se otevřít vstupní soubor");
