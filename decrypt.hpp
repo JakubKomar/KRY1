@@ -4,4 +4,4 @@
 using namespace std;
 
 void decrypt (config * cnf);
-char decryptChar (config * cnf,char character);
+char decryptChar (config * cnf,char character,int invertedKeyA);
