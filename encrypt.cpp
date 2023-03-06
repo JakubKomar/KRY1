@@ -2,16 +2,18 @@
 
 
 char encryptChar  (config * cnf,char character){
-    if(character>=65&&character<=90)
+    if(character>=65&&character<=90) // normalizace A-Z
         character-=65;
-    else if (character>=97&&character<=122)
+    else if (character>=97&&character<=122)//normalizace a-z
         character-=97;
-    else if (character==32)
-        return 32;   
-    else if (character=='\n')
+    else if (character==' ')    //mezery a odřádkování neřešíme
+        return ' ';   
+    else if (character=='\n')  //mezery a odřádkování neřešíme
         return '\n';   
-    cout << int (character)<<";";
-    char encryptedChar= (cnf->klicA * character +cnf->klicB )%26;
+    else
+        return '_';
+
+    char encryptedChar= (cnf->klicA * character +cnf->klicB )%26;   //šifrovací funke
     return encryptedChar+65;
 }
 
@@ -32,7 +34,7 @@ void encrypt (config * cnf){
     while ((character = fgetc(input_file)) != EOF) {
         //putchar(character);
         char codedChar =encryptChar(cnf,character);
-        fputc(codedChar, outPut_file); ;
+        fputc(codedChar, outPut_file);
     }
 
     fclose(input_file);
