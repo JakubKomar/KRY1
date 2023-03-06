@@ -9,6 +9,14 @@ int main(int argc, char *argv[])
 {
     config conf = parseArgs(argc,argv);
     cheackConf(&conf);
+
+    if (conf.sifrovani)
+        encrypt(&conf);
+    else if (conf.desifrovani)
+        decrypt(&conf);
+    else if (conf.desifrovaniBezKlice)
+        breakEn(&conf);
+
     return 0;
 }
 
