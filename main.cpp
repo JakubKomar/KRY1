@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
 
 config parseArgs(int argc, char *argv[]){
     config conf;
+    bool textEntered=false;
+
     for(int i=1;i<argc;i++)
 	{
         if(!strcmp(argv[i],"-h"))
@@ -58,6 +60,10 @@ config parseArgs(int argc, char *argv[]){
 		{
             (++i)<argc? conf.vystupniSoubor=argv[i]:throw invalid_argument("Chybí hodnota za argumentem -o");
         } 
+        else if(!textEntered){
+            conf.text=argv[i];
+            textEntered=true;
+        }
 		else
 			throw invalid_argument("Argument nebyl rozpoznán");
 	}
@@ -71,8 +77,9 @@ void cheackConf(config *cnf){
     if (cnf->desifrovaniBezKlice)cnt ++;
     if (cnt!=1) throw invalid_argument("Musíte vybrat právě jeden mód běhu programu.");
 
-    if((cnf->desifrovani ||cnf->sifrovani) && cnf->vystupniSoubor=="")throw invalid_argument("nebyl zadán výstupní soubor");
-    if((cnf->desifrovani ||cnf->sifrovani) && cnf->vstupniSoubor=="")throw invalid_argument("nebyl zadán vstupní soubor");
+    if((cnf->desifrovaniBezKlice) && cnf->vystupniSoubor=="")throw invalid_argument("nebyl zadán výstupní soubor");
+    if((cnf->desifrovaniBezKlice) && cnf->vstupniSoubor=="")throw invalid_argument("nebyl zadán vstupní soubor");
+
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->klicA==0)throw invalid_argument("nebyl zadán klič A");
     if((cnf->desifrovani ||cnf->sifrovani)){
         if(! (cnf->klicA==1||cnf->klicA==3||cnf->klicA==5||cnf->klicA==7||cnf->klicA==9||cnf->klicA==11||
@@ -80,4 +87,5 @@ void cheackConf(config *cnf){
             throw invalid_argument("Nebyl zadán validní klíč A - vyberte číslo ze seznamu: 1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23 a 25.");
     }
     if((cnf->desifrovani ||cnf->sifrovani) && cnf->klicB==0)throw invalid_argument("nebyl zadán klič B");
+    if((cnf->desifrovani ||cnf->sifrovani) && cnf->text=="")throw invalid_argument("nebyl zadán text pro šifrování/defšifrování");
 }

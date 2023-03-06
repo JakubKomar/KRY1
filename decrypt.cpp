@@ -13,44 +13,29 @@ int modInverse(int A, int M)
  
 
 char decryptChar  (config * cnf,char character,int invertedKeyA){
-    if(character>=65&&character<=90) // normalizace A-Z
-        character-=65;
-    else if (character>=97&&character<=122)//normalizace a-z
-        character-=97;
+
+    if (isLetter(character))
+        character=normalize(character);
     else if (character==' ')    //mezery a odřádkování neřešíme
         return ' ';   
     else if (character=='\n')  //mezery a odřádkování neřešíme
         return '\n';   
-    else
-        return '_'; 
+    else {
+        //cerr<<"tento znak nelze šifrovat/dešifrovat: '"<<character<<"'!\n";
+        return character;
+    }
 
     char encryptedChar=invertedKeyA *( character -cnf->klicB )%26;   //šifrovací funke
     if(encryptedChar<0)
         encryptedChar=encryptedChar+26;
-    //cout << int(encryptedChar)<< "\n";
-    return encryptedChar+65;
+    return deNormalize(encryptedChar);
 }
 
 void decrypt (config * cnf){
-    FILE* input_file = fopen(cnf->vstupniSoubor.c_str(), "r");
-    if (input_file == nullptr) {
-       throw invalid_argument("Nepodařilo se otevřít vstupní soubor");
-    }
-
-    FILE* outPut_file = fopen(cnf->vystupniSoubor.c_str(), "w");
-    if (input_file == nullptr) {
-       throw invalid_argument("Nepodařilo se otevřít vstupní soubor");
-    }
-
     int invertedKeyA= modInverse(cnf->klicA,26);
 
-    char character = 0;
-    while ((character = fgetc(input_file)) != EOF) {
-        //putchar(character);
-        char codedChar =decryptChar(cnf,character, invertedKeyA);
-        fputc(codedChar, outPut_file);
+    for (long unsigned int i=0; i<(cnf->text.length());i++){
+        cout<<decryptChar(cnf,cnf->text[i], invertedKeyA);
     }
-
-    fclose(input_file);
-    fclose(outPut_file);
+    cout<<"\n";
 }

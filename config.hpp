@@ -10,4 +10,5 @@ typedef struct config{
     int klicB=0;
     string vstupniSoubor="";
     string vystupniSoubor="";
+    string text="";
 }config;
