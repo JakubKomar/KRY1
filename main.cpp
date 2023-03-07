@@ -29,7 +29,26 @@ config parseArgs(int argc, char *argv[]){
 	{
         if(!strcmp(argv[i],"-h"))
 		{
-			cout<<"napoveda\n";		
+			cout<<
+R""""(Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+Author: Bc. Jakub Komárek (xkomar33)
+Použití:
+    ./kry [ [ -e | -d ] -a "klíč A" -b "klíč B" ] | -c -f "vstupní soubor"  -o "výstupní soubor" | -h
+
+Argumenty:
+    -e – parametr označující šifrování
+    -d – parametr označující dešifrování
+    -c – parametr označující dešifrování bez znalosti klíče
+    -a x – parametr označující klíč “a” (x označuje hodnotu například 3)
+    -b y – parametr označující klíč “b” (x označuje hodnotu například 7)
+    -f <název souboru> - parametr označující cestu k souboru.
+    -o <název souboru> - parametr označující výstupní soubor s otevřeným textem
+
+Příklady použití:
+    ./kry -e -a 3 -b 7 "TOTO JE TAJNA ZPRAVA"
+    ./kry -d -a 3 -b 7 "MXMX IT MHIUH EAGHSH"
+    ./kry -c -f "soubor.txt.enc" -o "soubor.txt"
+)"""";		
             exit(0);
 		}	
 		else if(!strcmp(argv[i],"-e"))
@@ -66,7 +85,7 @@ config parseArgs(int argc, char *argv[]){
             textEntered=true;
         }
 		else
-			throw invalid_argument("Argument nebyl rozpoznán");
+			throw invalid_argument("Argument nebyl rozpoznán, zkuste parametr -h");
 	}
     return conf;
 }
