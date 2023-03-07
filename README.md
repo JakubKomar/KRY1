@@ -20,3 +20,4 @@ příklady použití:
     ./kry -d -a 3 -b 7 "MXMX IT MHIUH EAGHSH"
     ./kry -c -f "soubor.txt.enc" -o "soubor.txt"
 
+![Screenshot](obr.jpg)
