@@ -61,6 +61,7 @@ void leaterAnalysys(config * cnf){
 
     int grCnt=pocetBigramu;
     for ( multimap<int, string>::const_iterator it = sortedBigramy.end(); it != sortedBigramy.begin(); ) {  //výběr nejčastějších n bigramý
+        it--;
         if(grCnt<0)
             break;
         gratestBigrams.push_back( it->second);
