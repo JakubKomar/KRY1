@@ -39,44 +39,27 @@ std::multimap<B,A> flip_map(const std::map<A,B> &src)
 }
 
 void leaterAnalysys(config * cnf){
-
-    vector <int> counter(26, 0);
+    vector <double> cetnostCeskyJazyk={8.4548,1.5582,2.5557,3.6241,10.6751,0.2732,0.2729,1.2712,1.1709,7.6227,2.1194,3.7367,3.8424,3.2267,6.6167,8.6977,3.4127,0.0013,4.9136,5.3212,5.7694,3.9422,4.6616,0.0088,0.0755,2.9814,3.1939,};
+    vector <double> cetnostText(26, 0);
     int sum=0;
 
     for (long unsigned int i=0; i<(cnf->text.length());i++){
         if (isLetter(cnf->text[i])){
             int index=int(normalize(cnf->text[i]));
-            if(!(index>=0&&index<=25))
-                throw invalid_argument("Blbě");
-            counter[index]++;
+            cetnostText[index]++;
             sum++;
         }
     }   
-    
-    vector <bool> mask(26, true);
-    vector <int> vyskyt;
-    
-    for (long unsigned int j=0;j<12;j++){
-        int maximumIndex=-1;
-        int maximum=-1;
-        for (long unsigned int i = 0; i < counter.size(); ++i){
-            if((maximum<counter.at(i))&&mask.at(i)){
-                maximumIndex=i;
-                maximum=counter.at(i);               
-            }
-        }
-        mask[maximumIndex]=false;
-        vyskyt.push_back(maximumIndex);
+    for(long unsigned int i=0; i<(cetnostText.size());i++){
+        cetnostText[i]=(cetnostText[i]/sum)*100;
     }
-
-    vector <int> vaha{8,7,7,6,5,5,5,4,3,1,1,1,1};
-
-    vector <int> nejcastejsi{f('E'),f('O'),f('A'),f('I'),
-    f('N'),f('S'),f('T'),f('R'),f('V'),f('D'),f('P'),f('M'),f('U')};
-    vector <int> strata{8, 7, 7,6,5,5,5,4,3,1,1,1,1};
-
-    vector <double> cetnostCeskyJazyk={8.4548,1.5582,2.5557,3.6241,10.6751,0.2732,0.2729,1.2712,1.1709,7.6227,2.1194,3.7367,3.8424,3.2267,6.6167,8.6977,3.4127,0.0013,4.9136,5.3212,5.7694,3.9422,4.6616,0.0088,0.0755,2.9814,3.1939,};
     
+    for(long unsigned int i=0; i<(cetnostText.size());i++){
+        cout<<deNormalize(char(i)) <<cetnostText[i]<<"  ";
+    }
+    cout<<"\n";
+
+   
 
     map <string,int> storage;
     int cnt=0;
@@ -85,40 +68,23 @@ void leaterAnalysys(config * cnf){
 
     for (long unsigned int i=0;i<keyA_Var.size();i++){
         for (int j = 0; j <= 25; j++){  //všechny klíče
-        cnt2++;
-            for (long unsigned int mostrLeter=0;mostrLeter<vyskyt.size();mostrLeter++){      // nejcastenjsi pismena v textu  
-                bool machFound=false; 
-                for (long unsigned int guestLeter=0;guestLeter<nejcastejsi.size();guestLeter++){    //nejcastejsi pismena v českém jazyce 
-                    cnt++;
+            string key=to_string(keyA_Var[i])+","+to_string(j);
+            storage[key]=0;
+            for (int leterIndex=0;leterIndex<26;leterIndex++){    //všechna písmena
+                if(cetnostCeskyJazyk[leterIndex]<2)
+                    continue;
 
-                    if(vyskyt[guestLeter]==(keyA_Var[i]*nejcastejsi[mostrLeter]+j)%26) {    //mapovaní nejčastějšího písmena na písmeno v českém jazyce
-                        string key=to_string(keyA_Var[i])+","+to_string(j);
-
-                        int ztrata=abs(vaha[mostrLeter] -strata[guestLeter]);
-                        ztrata=ztrata*ztrata;
-                        if(storage.find(key)== storage.end()){
-                            storage[key]=56-ztrata;
-                        }
-                        else{
-                            storage[key]+=56-ztrata;
-                        }
-                        machFound=true;
-                        break;
-                    }                 
-                }  
-                if (!machFound){
-                    string key=to_string(keyA_Var[i])+","+to_string(j);
-                    storage[key]-=10;
-                }           
+                int substitedLet=(keyA_Var[i]*leterIndex+j)%26  ;
+                storage[key]+= pow( abs(cetnostCeskyJazyk[leterIndex] - cetnostText[substitedLet]),2)*1000;                                 
             }
         }
     }
     std::multimap<int, string> dst = flip_map(storage);
-    /* 
+    
     for ( multimap<int, string>::const_iterator it = dst.begin(); it != dst.end(); it++) {
         cout << it->first <<":"<< it->second<< "; ";
     }
-    cout << "\n";*/
+    cout << "\n";
     if(dst.empty()){
         cerr<<"něco je špatně\n";
         exit(-1);
@@ -149,4 +115,5 @@ void leaterAnalysys(config * cnf){
             break;
     }
     cerr<<"\n";
+    cout<<storage["5,6"];
 }

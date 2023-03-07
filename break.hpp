@@ -6,6 +6,7 @@
 #include "config.hpp"
 #include "myLib.hpp"
 #include "decrypt.hpp"
+#include <cmath>
 using namespace std;
 
 void breakEn (config * cnf);
