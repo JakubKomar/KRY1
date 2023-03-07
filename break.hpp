@@ -6,6 +6,7 @@
 #include "config.hpp"
 #include "myLib.hpp"
 #include "decrypt.hpp"
+#include "encrypt.hpp"
 #include <cmath>
 using namespace std;
 

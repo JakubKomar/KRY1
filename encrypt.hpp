@@ -7,4 +7,5 @@
 using namespace std;
 
 void encrypt (config * cnf);
-char encryptChar  (config * cnf,char character);
+char encryptChar  ( int keyA,int keyB,char character);
+string encrtptMess(int keyA,int keyB,string text);
