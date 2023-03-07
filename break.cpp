@@ -56,7 +56,7 @@ void leaterAnalysys(config * cnf){
     vector <bool> mask(26, true);
     vector <int> vyskyt;
     
-    for (long unsigned int j=0;j<13;j++){
+    for (long unsigned int j=0;j<12;j++){
         int maximumIndex=-1;
         int maximum=-1;
         for (long unsigned int i = 0; i < counter.size(); ++i){
@@ -75,31 +75,50 @@ void leaterAnalysys(config * cnf){
     f('N'),f('S'),f('T'),f('R'),f('V'),f('D'),f('P'),f('M'),f('U')};
     vector <int> strata{8, 7, 7,6,5,5,5,4,3,1,1,1,1};
 
+    vector <double> cetnostCeskyJazyk={8.4548,1.5582,2.5557,3.6241,10.6751,0.2732,0.2729,1.2712,1.1709,7.6227,2.1194,3.7367,3.8424,3.2267,6.6167,8.6977,3.4127,0.0013,4.9136,5.3212,5.7694,3.9422,4.6616,0.0088,0.0755,2.9814,3.1939,};
+    
+
     map <string,int> storage;
     int cnt=0;
-
+    int cnt2=0;
     vector <int> keyA_Var={1,3,5,7,9,11,15,17,19,21,23,25};
 
     for (long unsigned int i=0;i<keyA_Var.size();i++){
-        for (int j = 0; j <= 25; j++){
-            for (long unsigned int mostrLeter=0;mostrLeter<vyskyt.size();mostrLeter++){
-                for (long unsigned int guestLeter=0;guestLeter<nejcastejsi.size();guestLeter++){   
+        for (int j = 0; j <= 25; j++){  //všechny klíče
+        cnt2++;
+            for (long unsigned int mostrLeter=0;mostrLeter<vyskyt.size();mostrLeter++){      // nejcastenjsi pismena v textu  
+                bool machFound=false; 
+                for (long unsigned int guestLeter=0;guestLeter<nejcastejsi.size();guestLeter++){    //nejcastejsi pismena v českém jazyce 
                     cnt++;
-                    if(vyskyt[guestLeter]==(keyA_Var[i]*nejcastejsi[mostrLeter]+j)%26) {
+
+                    if(vyskyt[guestLeter]==(keyA_Var[i]*nejcastejsi[mostrLeter]+j)%26) {    //mapovaní nejčastějšího písmena na písmeno v českém jazyce
                         string key=to_string(keyA_Var[i])+","+to_string(j);
+
+                        int ztrata=abs(vaha[mostrLeter] -strata[guestLeter]);
+                        ztrata=ztrata*ztrata;
                         if(storage.find(key)== storage.end()){
-                            storage[key]=8- abs((vaha[mostrLeter] -strata[guestLeter]));
+                            storage[key]=56-ztrata;
                         }
                         else{
-                            storage[key]+=8- abs((vaha[mostrLeter] -strata[guestLeter]));
+                            storage[key]+=56-ztrata;
                         }
-                    }   
-                }               
+                        machFound=true;
+                        break;
+                    }                 
+                }  
+                if (!machFound){
+                    string key=to_string(keyA_Var[i])+","+to_string(j);
+                    storage[key]-=10;
+                }           
             }
         }
     }
     std::multimap<int, string> dst = flip_map(storage);
-
+    /* 
+    for ( multimap<int, string>::const_iterator it = dst.begin(); it != dst.end(); it++) {
+        cout << it->first <<":"<< it->second<< "; ";
+    }
+    cout << "\n";*/
     if(dst.empty()){
         cerr<<"něco je špatně\n";
         exit(-1);
@@ -115,7 +134,7 @@ void leaterAnalysys(config * cnf){
     cnf->klicB=keyB;
     cout<< "a=" <<keyA <<",b="<< keyB <<"\n";
     cerr<<"metrika: "<< it->first<<"\n";
-    cerr<<"porovnání: "<< cnt<<"\n";
+    cerr<<"porovnání: "<< cnt2<<"\n";
     
     int lastN=5;
     it--;
