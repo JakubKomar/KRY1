@@ -1,5 +1,9 @@
-ISA projekt 2021 - Pop3 klient s podporu tsl/ssl
-autor: Jakub Komárek (xkomar33)
+/**
+ * @project Implementace Afinitní šifry - KRY (1 projekt) 
+ * @details Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+ * @brief   Všeobecné pomocné funkce
+ * @authors Bc. Jakub Komárek (xkomar33)
+ */
 
 použití:
 

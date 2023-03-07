@@ -7,7 +7,7 @@ BIN=kry
 ZIP=xkomar33.zip
 CC=g++ 
 RM=rm -f
-SRC=main.cpp encrypt.cpp decrypt.cpp break.cpp myLib.cpp
+SRC=main.cpp encrypt.cpp decrypt.cpp break.cpp myLib.cpp externalCode.cpp
 
 .PHONY: all build run pack clean
 

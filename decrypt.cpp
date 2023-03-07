@@ -1,19 +1,12 @@
+/**
+ * @project Implementace Afinitní šifry - KRY (1 projekt) 
+ * @details Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+ * @brief   Část pro dešifrování
+ * @authors Bc. Jakub Komárek (xkomar33)
+ */
 #include "decrypt.hpp"
 
-// vykradeno z https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/
-int modInverse(int A, int M)
-{
-    for (int X = 1; X < M; X++)
-        if (((A % M) * (X % M)) % M == 1)
-            return X;
-    throw invalid_argument("blbě");
-    return -1;
-}
-// konec vykradené části
- 
-
-char decryptChar  (config * cnf,char character,int invertedKeyA){
-
+char decryptChar  (char character,int invertedKeyA,int keyB){
     if (isLetter(character))
         character=normalize(character);
     else if (character==' ')    //mezery a odřádkování neřešíme
@@ -25,23 +18,27 @@ char decryptChar  (config * cnf,char character,int invertedKeyA){
         return character;
     }
 
-    char encryptedChar=invertedKeyA *( character -cnf->klicB )%26;   //šifrovací funke
+    char encryptedChar=decryptFunc(character,invertedKeyA,keyB);
     if(encryptedChar<0)
         encryptedChar=encryptedChar+26;
     return deNormalize(encryptedChar);
 }
 
+char decryptFunc(char character,int invertedKeyA,int keyB){
+    return invertedKeyA *( character - keyB )%26;   //šifrovací funke
+}
+
 void decrypt (config * cnf){
-    cout<<decryptMess(cnf);
+    cout<<decryptMess(cnf->text,cnf->klicA,cnf->klicB);
     cout<<"\n";
 }
 
-string decryptMess(config * cnf){
+string decryptMess(string message,int keyA, int keyB){
     string decMess="";
-    int invertedKeyA= modInverse(cnf->klicA,26);
+    int invertedKeyA= modInverse(keyA,26);
 
-    for (long unsigned int i=0; i<(cnf->text.length());i++){
-        decMess+=decryptChar(cnf,cnf->text[i], invertedKeyA);
+    for (long unsigned int i=0; i<(message.size());i++){
+        decMess+=decryptChar(message[i], invertedKeyA,keyB);
     }
     return decMess;
 }

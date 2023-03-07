@@ -1,7 +1,8 @@
 /**
- * @brief Pop3 klient s podporu tsl/ssl
- * @details klient pro stahování emailů z POP3 serveru
- * @authors Jakub Komárek (xkomar33)
+ * @project Implementace Afinitní šifry - KRY (1 projekt) 
+ * @details Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+ * @brief   Main - parsování argumentů a volání hlavních funkcí
+ * @authors Bc. Jakub Komárek (xkomar33)
  */
 #include "main.hpp"
 

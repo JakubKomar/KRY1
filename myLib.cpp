@@ -1,5 +1,10 @@
+/**
+ * @project Implementace Afinitní šifry - KRY (1 projekt) 
+ * @details Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+ * @brief   Všeobecné pomocné funkce
+ * @authors Bc. Jakub Komárek (xkomar33)
+ */
 #include "myLib.hpp"
-
 
 char normalize(char character){
     if(character>=65&&character<=90) // normalizace A-Z

@@ -1,5 +1,10 @@
+/**
+ * @project Implementace Afinitní šifry - KRY (1 projekt) 
+ * @details Program pro šifrování/defšifrování pomocí afinitní šifry a její prolamování
+ * @brief   Část pro šifrování
+ * @authors Bc. Jakub Komárek (xkomar33)
+ */
 #include "encrypt.hpp"
-
 
 char encryptChar  (int keyA,int keyB,char character){
 
@@ -14,8 +19,12 @@ char encryptChar  (int keyA,int keyB,char character){
         return character;
     }
 
-    char encryptedChar= (keyA * character +keyB )%26;   //šifrovací funke
+    char encryptedChar= encryptFunc(keyA, keyB, character);   //šifrovací funke
     return deNormalize(encryptedChar);
+}
+
+char encryptFunc(int keyA,int keyB,char character){
+    return (keyA * character +keyB )%26;
 }
 
 string encrtptMess(int keyA,int keyB,string text){
@@ -26,7 +35,6 @@ string encrtptMess(int keyA,int keyB,string text){
     }
     return encMess;
 }
-
 
 void encrypt (config * cnf){
     for (long unsigned int i=0; i<(cnf->text.length());i++){
