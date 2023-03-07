@@ -32,10 +32,16 @@ char decryptChar  (config * cnf,char character,int invertedKeyA){
 }
 
 void decrypt (config * cnf){
+    cout<<decryptMess(cnf);
+    cout<<"\n";
+}
+
+string decryptMess(config * cnf){
+    string decMess="";
     int invertedKeyA= modInverse(cnf->klicA,26);
 
     for (long unsigned int i=0; i<(cnf->text.length());i++){
-        cout<<decryptChar(cnf,cnf->text[i], invertedKeyA);
+        decMess+=decryptChar(cnf,cnf->text[i], invertedKeyA);
     }
-    cout<<"\n";
+    return decMess;
 }
